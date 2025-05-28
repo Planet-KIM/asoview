@@ -1,6 +1,7 @@
 # asoview
-## Make the website using flask and asopipe modules
-# 프로젝트 구조
+### Make the website using flask and asopipe modules
+#### 프로젝트 구조
+```
 # ─────────────────────────────────────────
 # app/              → Flask 애플리케이션 + Blueprints
 #     __init__.py   → 앱 팩토리, Celery 바인딩
@@ -15,3 +16,4 @@
 # requirements.txt  → 최소 의존 목록
 #
 # Python 3.8 호환 & typing 미사용 버전
+```
