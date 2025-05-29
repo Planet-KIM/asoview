@@ -51,7 +51,7 @@ def submit_design():
         jsonify(
             {
                 "task_id": task.id,
-                "status_url": url_for("status.task_status", task_id=task.id, _external=True),
+                "status_url": url_for("status.asodesign_task_status", task_id=task.id, _external=True),
             }
         ),
         202,

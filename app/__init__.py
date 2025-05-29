@@ -6,9 +6,9 @@ from celery import Celery
 BROKER_URL  = os.getenv("CELERY_BROKER_URL",  "redis://localhost:6379/0")
 BACKEND_URL = os.getenv("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
 
-celery = Celery(__name__, broker=BROKER_URL, backend=BACKEND_URL)
-celery.conf.update(
-    worker_pool="solo",            # 프로세스 1개
+celery_app = Celery(__name__, broker=BROKER_URL, backend=BACKEND_URL)
+celery_app.conf.update(
+    worker_pool="solo",            # 프로세스 1개 당 1개 작업 처리 후 재시작
     worker_concurrency=1,
     worker_max_tasks_per_child=1,  # == 작업 1개 처리 뒤 재시작
     result_serializer="json",
@@ -17,12 +17,12 @@ celery.conf.update(
 )
 
 def _make_celery(app):
-    class ContextTask(celery.Task):
+    class ContextTask(celery_app.Task):
         def __call__(self, *a, **kw):
             with app.app_context():
                 return self.run(*a, **kw)
-    celery.Task = ContextTask
-    return celery
+    celery_app.Task = ContextTask
+    return celery_app
 
 def create_app():
     app = Flask(__name__)
