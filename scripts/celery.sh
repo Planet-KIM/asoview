@@ -11,7 +11,7 @@ CELERY_OPTS=(
 )
 while true; do
   echo "[ℹ] Celery worker (solo) starting…"
-  celery "${CELERY_OPTS[@]}"
+  exec celery "${CELERY_OPTS[@]}"
   echo "[⚠] Celery worker exited – restarting in 2s…"
   sleep 2
 done
