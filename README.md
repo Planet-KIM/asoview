@@ -7,6 +7,7 @@
 #     __init__.py   → 앱 팩토리, Celery 바인딩
 #     views/
 #         __init__.py
+#         /main/__init__.py → /main / asoview init endpoint
 #         /design/__init__.py → /design 엔드포인트
 #         /status/__init__.py → /status/<id> 엔드포인트
 # tasks/
