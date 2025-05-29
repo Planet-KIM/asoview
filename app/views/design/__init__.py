@@ -40,7 +40,7 @@ def submit_design():
         transid=transid,
         query_assemblies=query_assembly,
         ref_assembly=ref_assembly,
-        k_min=k_max,
+        k_min=k_min,
         k_max=k_max,
         wobble=wobble,
         gapmer_filtered=gapmer_filtered,
