@@ -42,8 +42,10 @@ def create_app():
     # 블루프린트 등록
     from .views.design import bp as design_bp
     from .views.status import bp as status_bp
+    from .views.main import bp as main_bp
     app.register_blueprint(design_bp)
     app.register_blueprint(status_bp)
+    app.register_blueprint(main_bp)
 
     make_celery(app)  # 컨텍스트 연결
     return app
