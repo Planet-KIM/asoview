@@ -7,3 +7,5 @@ seaborn
 Flask
 celery[redis]
 gunicorn
+flask_sqlalchemy
+pymysql
