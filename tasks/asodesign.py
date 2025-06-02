@@ -41,6 +41,10 @@ def run_asodesign_process(
             os.makedirs(output_path, exist_ok=True)
         result  = run_ASOdesign(transid=transid,
                         query_assembly=query_assemblies,
+                        #refFlat_path = "/home/commons/Reference/UCSC/hg38/refseq/refFlat_200817.txt",
+                        #maf_dir='/home/commons/Reference/UCSC/hg38/maf',
+                        #dbsnp_path ="/home/jkportal/data/VCF/dbsnp.bcf",
+                        #dbsnp_index_path ="/home/jkportal/data/VCF/dbsnp.bcf.csi",
                         ref_assembly=ref_assembly,
                         k_min=k_min, k_max=k_max,
                         chunk_division=chunk_division, max_workers=max_workers, wobble=wobble, to_df=False, gapmer_filtered=gapmer_filtered,
