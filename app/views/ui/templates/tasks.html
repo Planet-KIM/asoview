@@ -449,82 +449,106 @@
     });
   </script>
 
-  <script>
-    // transid 자동완성 + 유효성 검사 로직
-    $(document).ready(function() {
-      // 전역 변수 : 유효한 항목을 선택했는지 여부
+<script>
+  $(document).ready(function() {
+    // 전역 변수: valid 여부
+    window.validTransid = false;
+
+    // 입력란 내용이 바뀌면 valid 리셋
+    $("#transid").on("input", function() {
+      window.validTransid = false;
+      $(this).removeClass('is-invalid');
+      $("#transid-error").hide();
+      // ESC로 숨겼던 제안 목록이 다시 보이지 않도록 보장
+      $("#transid-suggestions").hide();
+    });
+
+    // Enter 키 눌렀을 때 동작 (검색 또는 NM/NR 패턴 처리)
+    $("#transid").on("keypress", function(event) {
+      if (event.key !== "Enter") {
+        return;
+      }
+      event.preventDefault();
+
+      var query = $(this).val().trim();
+
+      // NM_/NR_ 패턴이 맞으면 바로 valid 처리 (API 호출 없이)
+      var pattern = /^(NM|NR)_[0-9]+$/i;
+      if (pattern.test(query)) {
+        window.validTransid = true;
+        $("#transid-suggestions").hide();
+        return;
+      }
+
+      // 그 외에는 API 호출
+      $('#transid').removeClass('is-invalid');
+      $('#transid-error').hide();
       window.validTransid = false;
 
-      // Enter 키로 검색 요청 보낼 때
-      $("#transid").on("keypress", function(event) {
-        if (event.key === "Enter") {
-          event.preventDefault();
+      if (query.length === 0) {
+        $("#transid-suggestions").hide();
+        return;
+      }
 
-          // AJAX 호출 전, 일단 기존 에러 스타일 제거
-          $('#transid').removeClass('is-invalid');
-          $('#transid-error').hide();
-          window.validTransid = false;
-
-          var query = $(this).val().trim();
-          if (query.length === 0) {
+      $.ajax({
+        url: "/utils/getgene",
+        method: "GET",
+        data: { genename: query },
+        success: function(data) {
+          // API 응답 중 name이 입력값과 정확히 일치하는 항목이 있는지 검사
+          var exactMatch = data.find(item => item.name === query);
+          if (exactMatch) {
+            window.validTransid = true;
             $("#transid-suggestions").hide();
             return;
           }
-          $.ajax({
-            url: "/utils/getgene",  // API 주소
-            method: "GET",
-            data: { genename: query },
-            success: function(data) {
-              if (data.length > 0) {
-                // 검색 결과가 있으면 리스트를 채우고 보이기
-                $("#transid-suggestions").empty().show();
-                data.forEach(function(item) {
-                  var listItem = $("<li>")
-                    .addClass("list-group-item")
-                    .text(item.geneName + " (" + item.name + ")")
-                    .data("transName", item.name)
-                    .on("click", function() {
-                      // 클릭 시: 유효 플래그 설정, 입력란에 transcript name 대입
-                      window.validTransid = true;
-                      $("#transid").val($(this).data("transName"));
-                      $("#transid-suggestions").hide();
-                    });
-                  $("#transid-suggestions").append(listItem);
+
+          // 제안 리스트 표시
+          if (data.length > 0) {
+            $("#transid-suggestions").empty().show();
+            data.forEach(function(item) {
+              var listItem = $("<li>")
+                .addClass("list-group-item")
+                .text(item.geneName + " (" + item.name + ")")
+                .data("transName", item.name)
+                .on("click", function() {
+                  window.validTransid = true;
+                  $("#transid").val($(this).data("transName"));
+                  $("#transid-suggestions").hide();
                 });
-              } else {
-                // 검색 결과가 없으면 리스트 숨기고, 바로 에러
-                $("#transid-suggestions").hide();
-                $('#transid').addClass('is-invalid');
-                $('#transid-error').text('검색 결과가 없습니다.').show();
-                window.validTransid = false;
-              }
-            },
-            error: function(xhr, status, error) {
-              console.error("자동완성 데이터 요청 실패:", error);
-            }
-          });
-        }
-      });
-
-      // 입력란 내용이 바뀌면 유효 플래그 리셋
-      $("#transid").on("input", function() {
-        window.validTransid = false;
-        $('#transid').removeClass('is-invalid');
-        $('#transid-error').hide();
-      });
-
-      // “Enter” 키로 첫 번째 제안 항목 자동 선택
-      $("#transid").on("keypress", function(event) {
-        if (event.key === "Enter") {
-          var firstItem = $("#transid-suggestions li:first");
-          if (firstItem.length > 0) {
-            event.preventDefault();
-            window.validTransid = true;
-            $("#transid").val(firstItem.data("transName"));
+              $("#transid-suggestions").append(listItem);
+            });
+          } else {
+            // 검색 결과 없으면 에러
             $("#transid-suggestions").hide();
+            $('#transid').addClass('is-invalid');
+            $('#transid-error').text('검색 결과가 없습니다.').show();
+            window.validTransid = false;
           }
+        },
+        error: function(xhr, status, error) {
+          console.error("자동완성 데이터 요청 실패:", error);
         }
       });
     });
-  </script>
+
+    // 제안 리스트가 보이는 상태에서 Enter 누르면 첫 번째 항목 자동 선택
+    $("#transid").on("keydown", function(event) {
+      if (event.key === "Enter" && $("#transid-suggestions").is(":visible")) {
+        event.preventDefault();
+        var firstItem = $("#transid-suggestions li:first");
+        if (firstItem.length > 0) {
+          window.validTransid = true;
+          $("#transid").val(firstItem.data("transName"));
+          $("#transid-suggestions").hide();
+        }
+      }
+
+      // ◀ 여기서 Escape 키 처리: ESC 누르면 제안 목록 숨기기
+      if (event.key === "Escape") {
+        $("#transid-suggestions").hide();
+      }
+    });
+  });
+</script>
 {% endblock %}
