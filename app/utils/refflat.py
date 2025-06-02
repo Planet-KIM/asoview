@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+import os
 
 
 def refflat2names(refFlat_path='/home/commons/Reference/UCSC/hg38/refseq/refFlat_200817.txt'):
@@ -14,7 +15,10 @@ def refflat2names(refFlat_path='/home/commons/Reference/UCSC/hg38/refseq/refFlat
 
 
 def get_refFlat_name(geneName='ATM',
-                     refFlat_genename_path='/home/jkportal/portal/renewal/jkportal/configs/data/refFlat/refFlat_names.json'):
+                     refFlat_genename_path=None):
+    if refFlat_genename_path == None:
+        #./../refFlat/refFlat_names.json'
+        refFlat_genename_path = os.path.join(os.path.dirname(__file__), './../../config/refFlat_genename.json')
     with open(refFlat_genename_path, 'r', encoding='utf-8') as file:
         refFlat_name = json.load(file)
     if geneName != None:
