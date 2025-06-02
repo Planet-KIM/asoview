@@ -18,7 +18,26 @@
   </style>
 </head>
 <body>
-  <h1>ASO Design 서비스</h1>
+<!-- ─────────── Navbar (배경 파랑, 글자 하양) ─────────── -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">ASO Portal</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="http://143.248.208.160:4042/" target="_blank">Home</a>
+        </li>
+        <!-- 필요 시 다른 메뉴 항목 추가 가능 -->
+      </ul>
+    </div>
+  </div>
+</nav>
+  <!-- ──────────────────────────────────── -->
+  <!--<h1>A</h1>-->
   {% block content %}{% endblock %}
 </body>
 {% block scripts %}{% endblock %}
