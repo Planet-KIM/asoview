@@ -13,6 +13,7 @@ class TaskRun(db.Model):
     started_at = db.Column(db.DateTime(timezone=True))
     finished_at = db.Column(db.DateTime(timezone=True))
     elapsed_sec = db.Column(db.Float)
+    asodesign_link = db.Column(db.String(256), index=True)
 
     __table_args__ = (
         db.UniqueConstraint("args_hash", name="uq_taskrun_args"),

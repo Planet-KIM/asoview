@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}My ASO Tool{% endblock %}</title>
+  {% block css %}{% endblock %}
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    fieldset { border: 1px solid #aaa; padding: 10px; margin-bottom: 20px; }
+    legend { font-weight: bold; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 6px 8px; text-align: left; }
+    th { background-color: #f0f0f0; }
+    .flash { padding: 5px 10px; margin-bottom: 10px; border-radius: 3px; }
+    .flash.success { background: #d4edda; color: #155724; }
+    .flash.warning { background: #fff3cd; color: #856404; }
+    .flash.info    { background: #cce5ff; color: #004085; }
+  </style>
+</head>
+<body>
+  <h1>ASO Design 서비스</h1>
+  {% block content %}{% endblock %}
+</body>
+{% block scripts %}{% endblock %}
+</html>
