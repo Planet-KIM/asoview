@@ -1,4 +1,5 @@
 # app/views/utils/__init__.py
+import os
 import json
 import time
 from app.utils.refflat import get_refFlat_name
@@ -14,8 +15,8 @@ def debug():
         return "test"
     elif request.method == "GET":
         geneName = request.args.get('genename')
-        print(geneName)
+        #print(geneName)
         geneNames_list = get_refFlat_name(geneName=geneName,
-                 refFlat_genename_path='/Users/dowonkim/Dropbox/data/celery_asodesign/asoview/config/refFlat_names.json')
+                 refFlat_genename_path=None)
         return geneNames_list
 

@@ -18,7 +18,7 @@ def get_refFlat_name(geneName='ATM',
                      refFlat_genename_path=None):
     if refFlat_genename_path == None:
         #./../refFlat/refFlat_names.json'
-        refFlat_genename_path = os.path.join(os.path.dirname(__file__), './../../config/refFlat_genename.json')
+        refFlat_genename_path = os.path.join(os.path.dirname(__file__), './../../config/refFlat_names.json')
     with open(refFlat_genename_path, 'r', encoding='utf-8') as file:
         refFlat_name = json.load(file)
     if geneName != None:
