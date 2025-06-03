@@ -72,7 +72,7 @@ def tasks_data():
         # 5) result_json 그대로 내려주고 싶다면 (optional)
         #    예: run.result_json 를 그대로 내려주면, 프론트엔드에서 필요할 때 파싱해서 볼 수 있음.
         #    여기서는 필드명만 같이 넘깁니다.
-        result_raw = run.result_json or ''
+        #result_raw = run.result_json or ''
         run.user_name = "default123@***" if run.user_name == None else run.user_name
         run.asonedesign_link = "Not yet." if run.asodesign_link == None else run.asodesign_link
         data.append({
@@ -90,8 +90,8 @@ def tasks_data():
             'asodesign_link': run.asodesign_link,
             'started_at': started_str,
             'finished_at': finished_str,
-            'elapsed_sec': elapsed_str,
-            'result_json': result_raw,
+            'elapsed_sec': elapsed_str#,
+            #'result_json': result_raw,
         })
 
     return jsonify(data)

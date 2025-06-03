@@ -62,7 +62,7 @@ def run_asodesign_process(
         # --------------- DB: 성공 업데이트 ------------------------------
             tr.status       = "SUCCESS"
             #tr.args_json = args_json
-            tr.result_json  = json.dumps(result_obj)
+            #tr.result_json  = json.dumps(result_obj)
             tr.finished_at  = time.strftime("%Y/%m/%d/%H:%M:%S", time.localtime(time.time()))
             tr.elapsed_sec  = elapsed_time
             #tr.args_hash = args_hash
@@ -74,7 +74,7 @@ def run_asodesign_process(
         return result_obj
     except Exception as e:
         tr.status = "FAILURE"
-        tr.result_json = json.dumps({"error": str(e)})
+        #tr.result_json = json.dumps({"error": str(e)})
         db.session.commit()
         raise e
 

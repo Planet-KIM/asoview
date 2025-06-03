@@ -82,7 +82,7 @@ def tasks():
             args_json=args_json,
             args_hash=args_hash,
             started_at=time.strftime("%Y/%m/%d/%H:%M:%S", time.localtime(time.time())),
-            asodesign_link="Not yet."
+            asodesign_link="Not yet"
         )
         try:
             db.session.add(new_run)

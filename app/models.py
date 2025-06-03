@@ -9,7 +9,7 @@ class TaskRun(db.Model):
     status = db.Column(db.String(20))  # PENDING / STARTED / SUCCESS / FAILURE
     args_json = db.Column(db.Text)
     args_hash = db.Column(db.String(64), index=True, nullable=False)
-    result_json = db.Column(db.Text)
+    #result_json = db.Column(db.Text)
     started_at = db.Column(db.DateTime(timezone=True))
     finished_at = db.Column(db.DateTime(timezone=True))
     elapsed_sec = db.Column(db.Float)
