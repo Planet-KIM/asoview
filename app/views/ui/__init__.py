@@ -66,13 +66,13 @@ def tasks():
             return redirect(url_for("ui.tasks"))
 
         task = run_asodesign_process.delay(
-            transid,
-            q_list,
-            ref_assembly,
-            k_min,
-            k_max,
-            wobble,
-            gapmer_filtered,
+            transid=transid,
+            query_assemblies=q_list,
+            ref_assembly=ref_assembly,
+            k_min=k_min,
+            k_max=k_max,
+            wobble=wobble,
+            gapmer_filtered=gapmer_filtered,
         )
 
         new_run = TaskRun(
